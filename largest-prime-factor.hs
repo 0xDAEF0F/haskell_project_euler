@@ -19,7 +19,7 @@ primeFactors n = go n 2
 
 -- Generates all prime numbers up to N using sieveOfEratosthenes
 allPrimesUpToN :: Integral a => a -> [a]
-allPrimesUpToN n = sieveOfEratosthenes [] [2 .. n]
+allPrimesUpToN n = sieve [2 .. n]
   where
-    sieveOfEratosthenes primes [] = reverse primes
-    sieveOfEratosthenes primes (x : xs) = sieveOfEratosthenes (x : primes) (filter (\num -> (num `mod` x) /= 0) xs)
+    sieve [] = []
+    sieve (x : xs) = x : sieve (filter (\num -> num `mod` x /= 0) xs)

@@ -5,6 +5,9 @@
 tenThousandAndOnePrimeNumber :: Integer
 tenThousandAndOnePrimeNumber = last $ take 10_001 allPrimeNumbers
 
+nPrimeNumber :: Int -> Integer
+nPrimeNumber n = last $ take n allPrimeNumbers
+
 allPrimeNumbers :: [Integer]
 allPrimeNumbers = sieve [2 ..]
   where
