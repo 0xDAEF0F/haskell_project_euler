@@ -6,20 +6,16 @@ import Data.List (find)
 -- The prime factors of 13195 are 5, 7, 13 and 29.
 -- What is the largest prime factor of the number 600_851_475_143 ?
 
-largestPrimeFactor :: Integral a => a -> Maybe a
-largestPrimeFactor n = find (\prime -> n `mod` prime == 0) (reverse (primeFactors n))
+largestPrimeFactor :: Integer -> Integer
+largestPrimeFactor n = last $ primeFactors n
 
-primeFactors :: Integral a => a -> [a]
-primeFactors n = go n 2
+primeNumbers :: [Integer]
+primeNumbers = 2 : sieve [3, 5 ..]
   where
-    go num divisor
-      | num == 1 = []
-      | num `mod` divisor == 0 = divisor : go (num `div` divisor) divisor
-      | otherwise = go num (divisor + 1)
+    sieve (p : rest) = p : sieve (filter (\n -> n `mod` p /= 0) rest)
 
--- Generates all prime numbers up to N using sieveOfEratosthenes
-allPrimesUpToN :: Integral a => a -> [a]
-allPrimesUpToN n = sieve [2 .. n]
-  where
-    sieve [] = []
-    sieve (x : xs) = x : sieve (filter (\num -> num `mod` x /= 0) xs)
+primeFactors :: Integer -> [Integer]
+primeFactors 1 = []
+primeFactors n = case find (\p -> n `mod` p == 0) primeNumbers of
+  Nothing -> []
+  Just x -> x : primeFactors (n `div` x)
