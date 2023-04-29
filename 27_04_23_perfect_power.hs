@@ -1,4 +1,4 @@
-import Data.List (find)
+import Data.List (find, group)
 
 -- Perfect Power
 
@@ -16,6 +16,16 @@ import Data.List (find)
 -- 6 => [2, 3] => Not a perfect power
 -- 9 => [3, 3] => 3^2
 
+isPP :: Integer -> Maybe (Integer, Int)
+isPP 1 = Nothing
+isPP n
+  | gcdOfExponents > 1 = Just (base, gcdOfExponents)
+  | otherwise = Nothing
+  where
+    base = product $ map (\g -> head g ^ (length g `div` gcdOfExponents)) pfGroups
+    pfGroups = group $ primeFactors n
+    gcdOfExponents = foldr1 gcd (map length pfGroups)
+
 primeFactors :: Integer -> [Integer]
 primeFactors 1 = []
 primeFactors n = x : primeFactors (n `div` x)
@@ -26,3 +36,5 @@ primeNumbers :: [Integer]
 primeNumbers = 2 : sieve [3, 5 ..]
   where
     sieve (p : rest) = p : sieve (filter (\n -> n `mod` p /= 0) rest)
+
+nums = [4, 8, 9, 16, 25, 27, 32, 36, 49, 64, 81, 100, 121, 125, 128, 144, 169, 196, 216, 225, 243, 256, 289, 324, 343, 361, 400, 441, 484]
