@@ -1,4 +1,7 @@
-import Data.List (find, group)
+module PerfectPowers where
+
+import Data.List (group)
+import PrimeNumbers (primeFactors)
 
 -- Perfect Power
 
@@ -25,16 +28,3 @@ isPP n
     base = product $ map (\g -> head g ^ (length g `div` gcdOfExponents)) pfGroups
     pfGroups = group $ primeFactors n
     gcdOfExponents = foldr1 gcd (map length pfGroups)
-
-primeFactors :: Integer -> [Integer]
-primeFactors 1 = []
-primeFactors n = x : primeFactors (n `div` x)
-  where
-    Just x = find (\p -> n `mod` p == 0) primeNumbers
-
-primeNumbers :: [Integer]
-primeNumbers = 2 : sieve [3, 5 ..]
-  where
-    sieve (p : rest) = p : sieve (filter (\n -> n `mod` p /= 0) rest)
-
-nums = [4, 8, 9, 16, 25, 27, 32, 36, 49, 64, 81, 100, 121, 125, 128, 144, 169, 196, 216, 225, 243, 256, 289, 324, 343, 361, 400, 441, 484]

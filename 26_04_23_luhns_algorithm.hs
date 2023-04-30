@@ -2,6 +2,7 @@ module Validate where
 
 import Data.Char (digitToInt, intToDigit)
 
+validate :: Show a => a -> Bool
 validate num
   | even (length $ show num) = isModTenZero $ sum' $ zipWith ($) (cycle [magic, id]) (show num)
   | otherwise = isModTenZero $ sum' $ zipWith ($) (cycle [id, magic]) (show num)

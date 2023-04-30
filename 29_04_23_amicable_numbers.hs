@@ -1,3 +1,7 @@
+import Combinations (combs)
+import Data.List (nub)
+import PrimeNumbers (primeFactors)
+
 sumAllAmicableNumbersUnderTenThousand :: Integer
 sumAllAmicableNumbersUnderTenThousand = sum $ filter isAmicableNumber [2 .. 9_999]
 
