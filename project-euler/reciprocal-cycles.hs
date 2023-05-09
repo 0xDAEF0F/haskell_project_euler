@@ -9,10 +9,10 @@ import Data.List (nub)
 -- NOTE: The function will only take integers as arguments.
 
 f :: Int -> Int -> [Int]
-f dividend divisor
-  | dividend `mod` divisor == 0 = []
-  | otherwise = undefined
-
--- IDEAS
--- nub . map snd $ iterate (\(a, _) -> divMod (10 * a) divisor) (divMod (10 * dividend) divisor)
--- takeWhile (/= 0) $ iterate (\x -> (x * 10) `mod` divisor) (dividend `mod` divisor)
+f a b = tail $ go a b
+  where
+    go dividend divisor
+      | remainder == 0 = [times]
+      | otherwise = times : go (remainder * 10) divisor
+      where
+        (times, remainder) = dividend `divMod` divisor
