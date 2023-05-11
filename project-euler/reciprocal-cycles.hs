@@ -16,3 +16,12 @@ f a b = tail $ go a b
       | otherwise = times : go (remainder * 10) divisor
       where
         (times, remainder) = dividend `divMod` divisor
+
+theCycle = cycle [0, 5, 2, 6, 3, 1, 5, 7, 8, 9, 4, 7, 3, 6, 8, 4, 2, 1]
+
+filterOddIdx = concat . zipWith ($) (cycle [pure, const []])
+
+filterEvenIdx = concat . zipWith ($) (cycle [const [], pure])
+
+filterOddIdx' :: [a] -> [a]
+filterOddIdx' xs = xs >>= \x -> [x | (x, i) <- zip xs [0 ..], even i]
