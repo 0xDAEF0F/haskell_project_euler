@@ -25,3 +25,5 @@ filterEvenIdx = concat . zipWith ($) (cycle [const [], pure])
 
 filterOddIdx' :: [a] -> [a]
 filterOddIdx' xs = xs >>= \x -> [x | (x, i) <- zip xs [0 ..], even i]
+
+filterOddIdx'' xs = concatMap (\x -> [x | (x, i) <- zip xs [0 ..], even i]) xs
