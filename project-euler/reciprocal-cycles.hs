@@ -1,4 +1,6 @@
-import Data.List (nub)
+import Data.List (nub, find, maximumBy)
+import Data.Maybe (mapMaybe)
+import Data.Function (on)
 
 -- Behavior of function:
 -- If the divisor divides "cleanly" into the dividend, it will return an empty list.
@@ -17,13 +19,16 @@ f a b = tail $ go a b
       where
         (times, remainder) = dividend `divMod` divisor
 
-theCycle = cycle [0, 5, 2, 6, 3, 1, 5, 7, 8, 9, 4, 7, 3, 6, 8, 4, 2, 1]
+foo cycle = case find (\(t, h, i) -> t == h && i > 1) bar 
+  of
+    Nothing -> Nothing
+    Just (a,b,c) -> Just (take (c+1) cycle)
+  where
+    bar = zip3 cycle baz [0..]
+    baz = [x | (x, i) <- zip cycle [0..], odd i]
 
-filterOddIdx = concat . zipWith ($) (cycle [pure, const []])
+cycleExample = cycle [0, 5, 2, 6, 3, 1, 5, 7, 8, 9, 4, 7, 3, 6, 8, 4, 2, 1]
 
-filterEvenIdx = concat . zipWith ($) (cycle [const [], pure])
+-- fn (_,_,i) (_,_,i2) = i > i2 
 
-filterOddIdx' :: [a] -> [a]
-filterOddIdx' xs = xs >>= \x -> [x | (x, i) <- zip xs [0 ..], even i]
-
-filterOddIdx'' xs = concatMap (\x -> [x | (x, i) <- zip xs [0 ..], even i]) xs
+bar = mapMaybe (foo . f 1) [2..999]
